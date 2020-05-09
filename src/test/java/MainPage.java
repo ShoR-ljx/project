@@ -1,3 +1,6 @@
+import cn.edu.shu.Dir;
+import cn.edu.shu.Group;
+import cn.edu.shu.Tank;
 import cn.edu.shu.TankFrame;
 
 /**
@@ -13,9 +16,8 @@ public class MainPage {
         TankFrame tf = new TankFrame();
 
         //初始化敌方tank
-        for (int i = 0; i < 6; i++) {
-
-
+        for(int i=0; i<5; i++) {
+            tf.tanks.add(new Tank(50 + i*80, 200, Dir.DOWN, Group.BAD, tf));
         }
         while (true) {
             Thread.sleep(100);
