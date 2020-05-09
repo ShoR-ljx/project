@@ -17,19 +17,21 @@ import java.util.logging.XMLFormatter;
 public class Tank {
     //设置tank的大小和初始方向
     //对于不想二次加载的属性使用static对于不想其他人员修改的成员变量使用final对于不想外部类访问的变量使用private
-    private int x,y;
-    private Dir dir =Dir.DOWN;
     private static final int SPEED = 2;
+    public static int WIDTH = ResourceMgr.goodTankU.getWidth();
 
-    private static int WIDTH = ResourceMgr.goodTankU.getWidth();
-    private static int HEIGHT = ResourceMgr.goodTankU.getHeight();
+    public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
 
     Rectangle rec = new Rectangle();
 
     private Random random = new Random();
 
-    private boolean moving = false;
-    private TankFrame tf  = null;
+    private int x, y;
+
+    private Dir dir = Dir.DOWN;
+
+    private boolean moving = true;
+    private TankFrame tf = null;
     private boolean living = true;
     private Group group = Group.BAD;
 
