@@ -1,13 +1,12 @@
 package cn.edu.shu;
 
-import com.sun.xml.internal.bind.v2.model.core.BuiltinLeafInfo;
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
+
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @ Author     ：Liu-jianxiang
@@ -17,11 +16,13 @@ import java.util.List;
  * @Version:
  */
 public class TankFrame extends Frame {
-   
 
-        Tank myTank = new Tank(200, 200, Dir.DOWN, this);
-        List<Bullet> bullets = new ArrayList<Bullet>();
-        static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;
+        Tank myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD,this);
+        List<Bullet> bullets = new ArrayList<>();
+        List<Tank> tanks = new ArrayList<>();
+        List<Explode> explodes = new ArrayList<>();
+
+        static final int GAME_WIDTH = 1080,GAME_HEIGHT = 960;
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -60,11 +61,29 @@ public class TankFrame extends Frame {
         g.setColor(Color.WHITE);
         //观察屏幕现存子弹数量的变化，观察子弹的生命周期
         g.drawString("子弹的数量："+bullets.size(),10,60);
+        g.drawString("敌人的数量："+tanks.size(),10,80);
+        g.drawString("爆炸的数量："+explodes.size(),10,100);
         g.setColor(c);
 
         myTank.paint(g);
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).paint(g);
+        }
+
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(g);
+        }
+
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(g);
+        }
+
+        //collision detect
+
+        for (int i = 0; i <bullets.size() ; i++) {
+            for (int j = 0; j < tanks.size(); j++) {
+                bullets.get(i).collideWith(tanks.get(j));
+            }
 
         }
     }
@@ -104,6 +123,8 @@ public class TankFrame extends Frame {
         }
 
         setMainTankDir();
+//新增坦克移动音效
+        new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
     }
 
 @Override
